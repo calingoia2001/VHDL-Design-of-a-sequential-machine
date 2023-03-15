@@ -1,0 +1,40 @@
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity CNT is
+    Port ( d : in STD_LOGIC_VECTOR (3 downto 0);
+           clk : in STD_LOGIC;
+           en : in STD_LOGIC;
+           ld : in STD_LOGIC;
+           r : in STD_LOGIC;
+           q : out STD_LOGIC_VECTOR (3 downto 0);
+           cy : out STD_LOGIC);
+end CNT;
+
+architecture Behavioral of CNT is
+
+signal qint: std_logic_vector(3 downto 0):= "0000";
+
+
+begin
+
+q <= qint;
+cy <= '1' when (qint= "1111" and en = '1') else '0';
+
+process(clk,r)
+begin
+if r = '0' then qint <="0000";
+elsif rising_edge (clk) then
+if ld = '1' then qint <= d;
+elsif en = '0' then qint <= qint + 1;
+else qint <= qint;
+end if;
+end if;
+end process;
+
+
+end Behavioral;
